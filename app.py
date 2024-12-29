@@ -29,3 +29,4 @@ if st.button("Predict"):
 
     # Display the result
     st.success(f"Predicted Car Purchase Amount: ${prediction[0]:,.2f}")
+
