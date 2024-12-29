@@ -1,9 +1,11 @@
 import streamlit as st
 import joblib
 import numpy as np
+from sklearn.preprocessing import StandardScaler
 
-# Load the saved model
+# Load the saved model and scaler
 model = joblib.load('car_purchase_model.pkl')
+scaler = joblib.load('scaler.pkl')  # Save and load the scaler used during training
 
 # Define the app interface
 st.title("Car Purchase Amount Prediction")
@@ -24,9 +26,11 @@ if st.button("Predict"):
     # Prepare input data as a NumPy array
     input_data = np.array([[gender_encoded, age, annual_salary, credit_card_debt, net_worth]])
 
+    # Apply the same scaling as during training
+    input_data_scaled = scaler.transform(input_data)
+
     # Make prediction
-    prediction = model.predict(input_data)
+    prediction = model.predict(input_data_scaled)
 
     # Display the result
     st.success(f"Predicted Car Purchase Amount: ${prediction[0]:,.2f}")
-
